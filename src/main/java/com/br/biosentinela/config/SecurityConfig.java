@@ -19,6 +19,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/regioes/**",       // libera os endpoints da sua API
                                 "/h2-console/**",
+                                "/alertas/**",
                                 "/sensores/**"// libera console H2 se quiser
                         ).permitAll()
                         .anyRequest().authenticated()

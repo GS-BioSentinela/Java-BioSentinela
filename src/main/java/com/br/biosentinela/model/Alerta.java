@@ -1,5 +1,6 @@
 package com.br.biosentinela.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -19,10 +20,12 @@ public class Alerta {
     @NotBlank(message = "Tipo de alerta é obrigatório")
     private String tipo;
 
-    @NotBlank(message = "Descrição é obrigatória")
-    private String descricao;
+    @NotBlank(message = "Mensagem é obrigatória")
+    private String mensagem;
 
     @ManyToOne
-    @JoinColumn(name = "sensor_id", nullable = false)
+    @JoinColumn(name = "sensor_id")
+    @JsonIgnoreProperties("alertas")
     private Sensor sensor;
+
 }

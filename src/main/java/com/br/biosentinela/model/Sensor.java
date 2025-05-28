@@ -1,8 +1,11 @@
 package com.br.biosentinela.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +28,9 @@ public class Sensor {
     @ManyToOne
     @JoinColumn(name = "regiao_id")
     private Regiao regiao;
+
+    @OneToMany(mappedBy = "sensor")
+    @JsonIgnore
+    private List<Alerta> alertas;
+
 }
