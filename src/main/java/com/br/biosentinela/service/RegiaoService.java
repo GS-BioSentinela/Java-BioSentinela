@@ -23,20 +23,20 @@ public class RegiaoService {
         return repository.save(regiao);
     }
 
-    public Regiao atualizar(Long id, Regiao novaRegiao) {
-        Regiao existente = repository.findById(id)
+    public Regiao buscarPorId(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Região não encontrada com id: " + id));
+    }
 
+    public Regiao atualizar(Long id, Regiao novaRegiao) {
+        Regiao existente = buscarPorId(id);
         existente.setNome(novaRegiao.getNome());
         existente.setBioma(novaRegiao.getBioma());
-
         return repository.save(existente);
     }
 
     public void deletar(Long id) {
-        Regiao existente = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Região não encontrada com id: " + id));
-
+        Regiao existente = buscarPorId(id);
         repository.delete(existente);
     }
 }

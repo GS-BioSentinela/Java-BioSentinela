@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/regioes")
@@ -19,10 +18,12 @@ public class RegiaoController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Regiao> listar() {
-        return service.listarTodas();
+    @GetMapping("/{id}")
+    public ResponseEntity<Regiao> buscarPorId(@PathVariable Long id) {
+        Regiao regiao = service.buscarPorId(id);
+        return ResponseEntity.ok(regiao);
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
