@@ -1,4 +1,4 @@
-package com.br.biosentinela.config;
+package com.br.biosentinela.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

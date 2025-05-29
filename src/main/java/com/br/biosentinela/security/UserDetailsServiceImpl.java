@@ -1,4 +1,4 @@
-package com.br.biosentinela.config;
+package com.br.biosentinela.security;
 
 import com.br.biosentinela.model.Usuario;
 import com.br.biosentinela.repository.UsuarioRepository;
