@@ -1,6 +1,7 @@
 package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.SensorDTO;
+import com.br.biosentinela.dto.SensorResponse;
 import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Regiao;
 import com.br.biosentinela.model.Sensor;
@@ -28,7 +29,7 @@ public class SensorService {
         return repository.findAll(pageable);
     }
 
-    public Sensor salvar(SensorDTO dto) {
+    public SensorResponse salvar(SensorDTO dto) {
         Sensor sensor = new Sensor();
         sensor.setTipo(dto.getTipo());
         sensor.setLocalizacao(dto.getLocalizacao());
@@ -37,10 +38,10 @@ public class SensorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada"));
         sensor.setRegiao(regiao);
 
-        return repository.save(sensor);
+        return toResponse(repository.save(sensor));
     }
 
-    public Sensor atualizar(Long id, SensorDTO dto) {
+    public SensorResponse atualizar(Long id, SensorDTO dto) {
         Sensor sensor = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado com id: " + id));
 
@@ -51,7 +52,7 @@ public class SensorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada"));
         sensor.setRegiao(regiao);
 
-        return repository.save(sensor);
+        return toResponse(repository.save(sensor));
     }
 
     public void deletar(Long id) {
@@ -60,8 +61,18 @@ public class SensorService {
         repository.delete(existente);
     }
 
-    public Sensor buscarPorId(Long id) {
-        return repository.findById(id)
+    public SensorResponse buscarPorId(Long id) {
+        Sensor sensor = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado com id: " + id));
+        return toResponse(sensor);
+    }
+
+    private SensorResponse toResponse(Sensor sensor) {
+        SensorResponse response = new SensorResponse();
+        response.setId(sensor.getId());
+        response.setTipo(sensor.getTipo());
+        response.setLocalizacao(sensor.getLocalizacao());
+        response.setRegiaoNome(sensor.getRegiao().getNome());
+        return response;
     }
 }

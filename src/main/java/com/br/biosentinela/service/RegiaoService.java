@@ -1,6 +1,7 @@
 package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.RegiaoDTO;
+import com.br.biosentinela.dto.RegiaoResponse;
 import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Regiao;
 import com.br.biosentinela.repository.RegiaoRepository;
@@ -17,31 +18,43 @@ public class RegiaoService {
         this.repository = repository;
     }
 
-    public Page<Regiao> listarPaginado(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<RegiaoResponse> listarPaginado(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(this::toResponse);
     }
 
-    public Regiao buscarPorId(Long id) {
-        return repository.findById(id)
+    public RegiaoResponse buscarPorId(Long id) {
+        Regiao regiao = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada com id: " + id));
+        return toResponse(regiao);
     }
 
-    public Regiao salvar(RegiaoDTO dto) {
+    public RegiaoResponse salvar(RegiaoDTO dto) {
         Regiao regiao = new Regiao();
         regiao.setNome(dto.getNome());
         regiao.setBioma(dto.getBioma());
-        return repository.save(regiao);
+        return toResponse(repository.save(regiao));
     }
 
-    public Regiao atualizar(Long id, RegiaoDTO dto) {
-        Regiao existente = buscarPorId(id);
+    public RegiaoResponse atualizar(Long id, RegiaoDTO dto) {
+        Regiao existente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada com id: " + id));
         existente.setNome(dto.getNome());
         existente.setBioma(dto.getBioma());
-        return repository.save(existente);
+        return toResponse(repository.save(existente));
     }
 
     public void deletar(Long id) {
-        Regiao existente = buscarPorId(id);
+        Regiao existente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada com id: " + id));
         repository.delete(existente);
+    }
+
+    private RegiaoResponse toResponse(Regiao regiao) {
+        RegiaoResponse response = new RegiaoResponse();
+        response.setId(regiao.getId());
+        response.setNome(regiao.getNome());
+        response.setBioma(regiao.getBioma());
+        return response;
     }
 }

@@ -1,7 +1,7 @@
 package com.br.biosentinela.controller;
 
 import com.br.biosentinela.dto.RegiaoDTO;
-import com.br.biosentinela.model.Regiao;
+import com.br.biosentinela.dto.RegiaoResponse;
 import com.br.biosentinela.service.RegiaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -23,28 +23,26 @@ public class RegiaoController {
 
     @Operation(summary = "Listar regiões", description = "Lista todas as regiões cadastradas com paginação")
     @GetMapping
-    public ResponseEntity<Page<Regiao>> listarPaginado(@ParameterObject Pageable pageable) {
+    public ResponseEntity<Page<RegiaoResponse>> listarPaginado(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(service.listarPaginado(pageable));
     }
 
     @Operation(summary = "Buscar região por ID", description = "Retorna os dados de uma região específica")
     @GetMapping("/{id}")
-    public ResponseEntity<Regiao> buscarPorId(@PathVariable Long id) {
-        Regiao regiao = service.buscarPorId(id);
-        return ResponseEntity.ok(regiao);
+    public ResponseEntity<RegiaoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @Operation(summary = "Criar nova região", description = "Cadastra uma nova região com nome e bioma")
     @PostMapping
-    public ResponseEntity<Regiao> salvar(@RequestBody @Valid RegiaoDTO dto) {
+    public ResponseEntity<RegiaoResponse> salvar(@RequestBody @Valid RegiaoDTO dto) {
         return ResponseEntity.status(201).body(service.salvar(dto));
     }
 
     @Operation(summary = "Atualizar região", description = "Atualiza os dados de uma região existente pelo ID")
     @PutMapping("/{id}")
-    public ResponseEntity<Regiao> atualizar(@PathVariable Long id, @RequestBody @Valid RegiaoDTO dto) {
-        Regiao regiao = service.atualizar(id, dto);
-        return ResponseEntity.ok(regiao);
+    public ResponseEntity<RegiaoResponse> atualizar(@PathVariable Long id, @RequestBody @Valid RegiaoDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
     @Operation(summary = "Deletar região", description = "Remove uma região existente pelo ID")
