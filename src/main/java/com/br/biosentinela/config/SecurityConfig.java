@@ -1,7 +1,7 @@
 package com.br.biosentinela.config;
 
 import com.br.biosentinela.security.JWTFilter;
-import com.br.biosentinela.service.UsuarioDetailsServiceImpl;
+import com.br.biosentinela.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,10 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private final UsuarioDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private final JWTFilter jwtFilter;
 
-    public SecurityConfig(UsuarioDetailsServiceImpl userDetailsService, JWTFilter jwtFilter) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JWTFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtFilter = jwtFilter;
     }
