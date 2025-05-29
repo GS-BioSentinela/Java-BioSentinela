@@ -21,7 +21,10 @@ public class SensorService {
         this.regiaoRepository = regiaoRepository;
     }
 
-    public Page<Sensor> listarPaginado(Pageable pageable) {
+    public Page<Sensor> listarPaginado(String tipo, Pageable pageable) {
+        if (tipo != null && !tipo.isEmpty()) {
+            return repository.findByTipoIgnoreCase(tipo, pageable);
+        }
         return repository.findAll(pageable);
     }
 

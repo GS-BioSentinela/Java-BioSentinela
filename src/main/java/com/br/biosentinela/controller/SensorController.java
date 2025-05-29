@@ -21,8 +21,10 @@ public class SensorController {
     }
 
     @GetMapping
-    public Page<Sensor> listarPaginado(@ParameterObject Pageable pageable) {
-        return service.listarPaginado(pageable);
+    public Page<Sensor> listarPaginado(
+            @RequestParam(required = false) String tipo,
+            @ParameterObject Pageable pageable) {
+        return service.listarPaginado(tipo, pageable);
     }
 
     @GetMapping("/{id}")
