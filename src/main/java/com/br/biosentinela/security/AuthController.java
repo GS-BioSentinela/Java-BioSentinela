@@ -1,5 +1,6 @@
 package com.br.biosentinela.security;
 
+import com.br.biosentinela.dto.UsuarioDTO;
 import com.br.biosentinela.model.Usuario;
 import com.br.biosentinela.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -11,9 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password())
@@ -42,18 +40,17 @@ public class AuthController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String token = jwtUtil.generateToken(userDetails);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            response.put("type", "Bearer");
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(token);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body(Map.of("error", "Credenciais inválidas"));
+            return ResponseEntity.status(401).body("Credenciais inválidas");
         }
     }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+    public ResponseEntity<String> register(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+        Usuario usuario = new Usuario();
+        usuario.setUsername(usuarioDTO.getUsername());
+        usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
         usuarioRepository.save(usuario);
         return ResponseEntity.ok("Usuário cadastrado com sucesso!");
     }
