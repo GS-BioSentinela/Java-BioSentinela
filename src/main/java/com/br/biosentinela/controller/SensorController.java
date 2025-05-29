@@ -1,14 +1,14 @@
 package com.br.biosentinela.controller;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import com.br.biosentinela.dto.SensorDTO;
 import com.br.biosentinela.model.Sensor;
 import com.br.biosentinela.service.SensorService;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/sensores")
@@ -25,7 +25,6 @@ public class SensorController {
         return service.listarPaginado(pageable);
     }
 
-
     @GetMapping("/{id}")
     public Sensor buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
@@ -33,13 +32,13 @@ public class SensorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Sensor salvar(@RequestBody @Valid Sensor sensor) {
-        return service.salvar(sensor);
+    public Sensor salvar(@RequestBody @Valid SensorDTO dto) {
+        return service.salvar(dto);
     }
 
     @PutMapping("/{id}")
-    public Sensor atualizar(@PathVariable Long id, @RequestBody @Valid Sensor sensor) {
-        return service.atualizar(id, sensor);
+    public Sensor atualizar(@PathVariable Long id, @RequestBody @Valid SensorDTO dto) {
+        return service.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
