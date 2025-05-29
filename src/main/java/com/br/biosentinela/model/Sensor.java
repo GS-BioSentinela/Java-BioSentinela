@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,4 +35,7 @@ public class Sensor {
     @JsonIgnore
     private List<Alerta> alertas;
 
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime dataCriacao;
 }
