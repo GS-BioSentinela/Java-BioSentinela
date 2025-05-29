@@ -29,11 +29,15 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Rotas públicas (sem autenticação)
                         .requestMatchers(
                                 "/auth/**",
-                                "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
                                 "/h2-console/**"
                         ).permitAll()
+                        // Todas as outras requerem autenticação com token JWT
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
