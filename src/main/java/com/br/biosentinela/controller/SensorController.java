@@ -1,5 +1,6 @@
 package com.br.biosentinela.controller;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.br.biosentinela.model.Sensor;
 import com.br.biosentinela.service.SensorService;
 import jakarta.validation.Valid;
@@ -19,8 +20,8 @@ public class SensorController {
     }
 
     @GetMapping
-    public List<Sensor> listar() {
-        return service.listarTodos();
+    public Page<Sensor> listarPaginado(Pageable pageable) {
+        return service.listarPaginado(pageable);
     }
 
     @GetMapping("/{id}")

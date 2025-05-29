@@ -1,5 +1,6 @@
 package com.br.biosentinela.service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.br.biosentinela.model.Sensor;
 import com.br.biosentinela.repository.SensorRepository;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class SensorService {
         this.repository = repository;
     }
 
-    public List<Sensor> listarTodos() {
-        return repository.findAll();
+    public Page<Sensor> listarPaginado(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Sensor salvar(Sensor sensor) {
