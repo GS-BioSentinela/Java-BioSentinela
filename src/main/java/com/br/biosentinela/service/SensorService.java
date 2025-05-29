@@ -1,6 +1,7 @@
 package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.SensorDTO;
+import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Regiao;
 import com.br.biosentinela.model.Sensor;
 import com.br.biosentinela.repository.RegiaoRepository;
@@ -30,7 +31,7 @@ public class SensorService {
         sensor.setLocalizacao(dto.getLocalizacao());
 
         Regiao regiao = regiaoRepository.findById(dto.getRegiaoId())
-                .orElseThrow(() -> new RuntimeException("Região não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada"));
         sensor.setRegiao(regiao);
 
         return repository.save(sensor);
@@ -38,24 +39,26 @@ public class SensorService {
 
     public Sensor atualizar(Long id, SensorDTO dto) {
         Sensor sensor = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sensor não encontrado com id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado com id: " + id));
 
         sensor.setTipo(dto.getTipo());
         sensor.setLocalizacao(dto.getLocalizacao());
 
         Regiao regiao = regiaoRepository.findById(dto.getRegiaoId())
-                .orElseThrow(() -> new RuntimeException("Região não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada"));
         sensor.setRegiao(regiao);
 
         return repository.save(sensor);
     }
 
     public void deletar(Long id) {
-        repository.deleteById(id);
+        Sensor existente = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado com id: " + id));
+        repository.delete(existente);
     }
 
     public Sensor buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sensor não encontrado com id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado com id: " + id));
     }
 }

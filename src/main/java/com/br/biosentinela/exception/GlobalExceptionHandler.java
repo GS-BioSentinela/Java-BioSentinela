@@ -1,5 +1,6 @@
 package com.br.biosentinela.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,19 +14,33 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErroDTO> handleValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, String> erros = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> detalhes = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                erros.put(error.getField(), error.getDefaultMessage())
+                detalhes.put(error.getField(), error.getDefaultMessage())
         );
 
-        ErroDTO erroDTO = new ErroDTO("Erro de validação", erros);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroDTO);
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("mensagem", "Erro de validação");
+        resposta.put("detalhes", detalhes);
+
+        return ResponseEntity.badRequest().body(resposta);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErroDTO> handleRuntimeException(RuntimeException ex) {
-        ErroDTO erroDTO = new ErroDTO("Erro interno", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erroDTO);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFound(ResourceNotFoundException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("mensagem", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleGeneric(Exception ex) {
+        Map<String, String> resposta = new HashMap<>();
+        resposta.put("mensagem", "Erro interno");
+        resposta.put("detalhes", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resposta);
     }
 }

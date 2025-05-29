@@ -1,6 +1,7 @@
 package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.RegiaoDTO;
+import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Regiao;
 import com.br.biosentinela.repository.RegiaoRepository;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ public class RegiaoService {
 
     public Regiao buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Região não encontrada com id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Região não encontrada com id: " + id));
     }
 
     public Regiao salvar(RegiaoDTO dto) {

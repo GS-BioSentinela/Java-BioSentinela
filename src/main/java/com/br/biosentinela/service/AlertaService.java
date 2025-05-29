@@ -1,6 +1,7 @@
 package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.AlertaDTO;
+import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Alerta;
 import com.br.biosentinela.model.Sensor;
 import com.br.biosentinela.repository.AlertaRepository;
@@ -26,12 +27,12 @@ public class AlertaService {
 
     public Alerta buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Alerta não encontrado com id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Alerta não encontrado com id: " + id));
     }
 
     public Alerta salvar(AlertaDTO dto) {
         Sensor sensor = sensorRepository.findById(dto.getSensorId())
-                .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado"));
 
         Alerta alerta = new Alerta();
         alerta.setTipo(dto.getTipo());
@@ -44,7 +45,7 @@ public class AlertaService {
     public Alerta atualizar(Long id, AlertaDTO dto) {
         Alerta alerta = buscarPorId(id);
         Sensor sensor = sensorRepository.findById(dto.getSensorId())
-                .orElseThrow(() -> new RuntimeException("Sensor não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado"));
 
         alerta.setTipo(dto.getTipo());
         alerta.setMensagem(dto.getMensagem());
@@ -54,6 +55,7 @@ public class AlertaService {
     }
 
     public void deletar(Long id) {
-        repository.deleteById(id);
+        Alerta existente = buscarPorId(id);
+        repository.delete(existente);
     }
 }
