@@ -2,9 +2,9 @@ package com.br.biosentinela.service;
 
 import com.br.biosentinela.model.Alerta;
 import com.br.biosentinela.repository.AlertaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AlertaService {
@@ -15,8 +15,13 @@ public class AlertaService {
         this.repository = repository;
     }
 
-    public List<Alerta> listarTodos() {
-        return repository.findAll();
+    public Page<Alerta> listarPaginado(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    public Alerta buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alerta não encontrado com id: " + id));
     }
 
     public Alerta salvar(Alerta alerta) {
@@ -30,10 +35,5 @@ public class AlertaService {
 
     public void deletar(Long id) {
         repository.deleteById(id);
-    }
-
-    public Alerta buscarPorId(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Alerta não encontrado com id: " + id));
     }
 }

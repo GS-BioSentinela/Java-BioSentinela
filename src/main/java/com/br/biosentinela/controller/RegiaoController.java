@@ -1,5 +1,6 @@
 package com.br.biosentinela.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
 import com.br.biosentinela.model.Regiao;
 import com.br.biosentinela.service.RegiaoService;
 import jakarta.validation.Valid;
@@ -20,7 +21,7 @@ public class RegiaoController {
     }
 
     @GetMapping
-    public Page<Regiao> listarPaginado(Pageable pageable) {
+    public Page<Regiao> listarPaginado(@ParameterObject Pageable pageable) {
         return service.listarPaginado(pageable);
     }
 

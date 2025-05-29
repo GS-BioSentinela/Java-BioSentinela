@@ -3,10 +3,11 @@ package com.br.biosentinela.controller;
 import com.br.biosentinela.model.Alerta;
 import com.br.biosentinela.service.AlertaService;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/alertas")
@@ -19,8 +20,8 @@ public class AlertaController {
     }
 
     @GetMapping
-    public List<Alerta> listar() {
-        return service.listarTodos();
+    public Page<Alerta> listarPaginado(@ParameterObject Pageable pageable) {
+        return service.listarPaginado(pageable);
     }
 
     @GetMapping("/{id}")

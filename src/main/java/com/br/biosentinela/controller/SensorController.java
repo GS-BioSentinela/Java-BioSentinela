@@ -1,4 +1,5 @@
 package com.br.biosentinela.controller;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.br.biosentinela.model.Sensor;
@@ -20,9 +21,10 @@ public class SensorController {
     }
 
     @GetMapping
-    public Page<Sensor> listarPaginado(Pageable pageable) {
+    public Page<Sensor> listarPaginado(@ParameterObject Pageable pageable) {
         return service.listarPaginado(pageable);
     }
+
 
     @GetMapping("/{id}")
     public Sensor buscarPorId(@PathVariable Long id) {
