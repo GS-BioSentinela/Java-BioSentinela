@@ -1,6 +1,7 @@
 package com.br.biosentinela.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -8,16 +9,16 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usuarios")
+@ToString
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Nome de usuário é obrigatório")
     private String username;
 
-    @Column(nullable = false)
-    private String password;
+    @NotBlank(message = "Senha é obrigatória")
+    private String senha;
 }
