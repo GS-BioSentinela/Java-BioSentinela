@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,39 +26,38 @@ public class AlertaController {
 
     @Operation(summary = "Listar alertas", description = "Lista todos os alertas com paginação")
     @GetMapping
-    public Page<?> listarPaginado(@ParameterObject Pageable pageable) {
-        return service.listarPaginado(pageable);
+    public ResponseEntity<Page<?>> listarPaginado(@ParameterObject Pageable pageable) {
+        return ResponseEntity.ok(service.listarPaginado(pageable));
     }
 
     @Operation(summary = "Buscar alerta por ID", description = "Retorna os dados de um alerta específico")
     @GetMapping("/{id}")
-    public AlertaResponse buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public ResponseEntity<AlertaResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @Operation(summary = "Criar alerta", description = "Cadastra um novo alerta relacionado a um sensor")
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AlertaResponse salvar(@RequestBody @Valid AlertaDTO dto) {
-        return service.salvar(dto);
+    public ResponseEntity<AlertaResponse> salvar(@RequestBody @Valid AlertaDTO dto) {
+        return ResponseEntity.status(201).body(service.salvar(dto));
     }
 
     @Operation(summary = "Atualizar alerta", description = "Atualiza os dados de um alerta existente")
     @PutMapping("/{id}")
-    public AlertaResponse atualizar(@PathVariable Long id, @RequestBody @Valid AlertaDTO dto) {
-        return service.atualizar(id, dto);
+    public ResponseEntity<AlertaResponse> atualizar(@PathVariable Long id, @RequestBody @Valid AlertaDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
     @Operation(summary = "Deletar alerta", description = "Remove um alerta pelo ID")
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Estatísticas de alertas", description = "Retorna a contagem de alertas por tipo")
     @GetMapping("/stats")
-    public List<AlertaStatsDTO> obterEstatisticas() {
-        return service.obterEstatisticasPorTipo();
+    public ResponseEntity<List<AlertaStatsDTO>> obterEstatisticas() {
+        return ResponseEntity.ok(service.obterEstatisticasPorTipo());
     }
 }
