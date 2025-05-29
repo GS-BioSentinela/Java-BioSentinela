@@ -1,7 +1,7 @@
 package com.br.biosentinela.controller;
 
 import com.br.biosentinela.dto.AlertaDTO;
-import com.br.biosentinela.model.Alerta;
+import com.br.biosentinela.dto.AlertaResponse;
 import com.br.biosentinela.service.AlertaService;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
@@ -21,23 +21,23 @@ public class AlertaController {
     }
 
     @GetMapping
-    public Page<Alerta> listarPaginado(@ParameterObject Pageable pageable) {
+    public Page<?> listarPaginado(@ParameterObject Pageable pageable) {
         return service.listarPaginado(pageable);
     }
 
     @GetMapping("/{id}")
-    public Alerta buscarPorId(@PathVariable Long id) {
+    public AlertaResponse buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Alerta salvar(@RequestBody @Valid AlertaDTO dto) {
+    public AlertaResponse salvar(@RequestBody @Valid AlertaDTO dto) {
         return service.salvar(dto);
     }
 
     @PutMapping("/{id}")
-    public Alerta atualizar(@PathVariable Long id, @RequestBody @Valid AlertaDTO dto) {
+    public AlertaResponse atualizar(@PathVariable Long id, @RequestBody @Valid AlertaDTO dto) {
         return service.atualizar(id, dto);
     }
 

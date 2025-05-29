@@ -1,6 +1,7 @@
 package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.AlertaDTO;
+import com.br.biosentinela.dto.AlertaResponse;
 import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Alerta;
 import com.br.biosentinela.model.Sensor;
@@ -25,12 +26,11 @@ public class AlertaService {
         return repository.findAll(pageable);
     }
 
-    public Alerta buscarPorId(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Alerta não encontrado com id: " + id));
+    public AlertaResponse buscarPorId(Long id) {
+        return toResponse(buscarEntidade(id));
     }
 
-    public Alerta salvar(AlertaDTO dto) {
+    public AlertaResponse salvar(AlertaDTO dto) {
         Sensor sensor = sensorRepository.findById(dto.getSensorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado"));
 
@@ -39,11 +39,11 @@ public class AlertaService {
         alerta.setMensagem(dto.getMensagem());
         alerta.setSensor(sensor);
 
-        return repository.save(alerta);
+        return toResponse(repository.save(alerta));
     }
 
-    public Alerta atualizar(Long id, AlertaDTO dto) {
-        Alerta alerta = buscarPorId(id);
+    public AlertaResponse atualizar(Long id, AlertaDTO dto) {
+        Alerta alerta = buscarEntidade(id);
         Sensor sensor = sensorRepository.findById(dto.getSensorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Sensor não encontrado"));
 
@@ -51,11 +51,25 @@ public class AlertaService {
         alerta.setMensagem(dto.getMensagem());
         alerta.setSensor(sensor);
 
-        return repository.save(alerta);
+        return toResponse(repository.save(alerta));
     }
 
     public void deletar(Long id) {
-        Alerta existente = buscarPorId(id);
+        Alerta existente = buscarEntidade(id);
         repository.delete(existente);
+    }
+
+    private Alerta buscarEntidade(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Alerta não encontrado com id: " + id));
+    }
+
+    private AlertaResponse toResponse(Alerta alerta) {
+        AlertaResponse response = new AlertaResponse();
+        response.setId(alerta.getId());
+        response.setTipo(alerta.getTipo());
+        response.setMensagem(alerta.getMensagem());
+        response.setSensorLocalizacao(alerta.getSensor().getLocalizacao());
+        return response;
     }
 }
