@@ -1,8 +1,12 @@
+# 🌿 BioSentinela – Monitoramento Inteligente de Áreas com Espécies em Extinção
 
-# 🌿 Projeto BioSentinela – Monitoramento Inteligente de Áreas com Espécies em Extinção
+Sistema completo com sensores IoT, alertas e autenticação via JWT para ajudar no monitoramento ambiental em áreas críticas.
+
+---
 
 ## 📘 Visão Geral
-Este sistema realiza o monitoramento de áreas afetadas por queimadas e desmatamento usando sensores IoT. Ele permite o cadastro de Regiões, Sensores e Alertas, com controle e visualização via API REST.
+
+Este sistema realiza o monitoramento de áreas afetadas por queimadas e desmatamento usando sensores IoT. Permite o cadastro de Regiões, Sensores e Alertas, com controle e visualização via API REST + Swagger.
 
 ---
 
@@ -10,40 +14,64 @@ Este sistema realiza o monitoramento de áreas afetadas por queimadas e desmatam
 
 1. Clone o projeto:
 ```bash
-git clone https://github.com/seuusuario/biosentinela-api.git
+git clone https://github.com/GS-BioSentinela/Java-BioSentinela.git
 cd biosentinela-api
 ```
 
-2. Execute via Maven ou diretamente pela sua IDE (IntelliJ/VSCode).
-3. Acesse o Swagger: `http://localhost:8080/swagger-ui.html`
-4. Acesse o banco H2: `http://localhost:8080/h2-console`
-    - JDBC URL: `jdbc:h2:mem:biosentinela-db`
-    - User: `sa`
-    - Password: *(em branco)*
+2. Execute via Maven ou diretamente pela sua IDE.
+3. Acesse o Swagger: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+4. Acesse o banco H2: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+   - JDBC URL: `jdbc:h2:mem:biosentinela-db`
+   - User: `sa`
+   - Password: *(em branco)*
 
 ---
 
-## 🧪 Endpoints e Testes
+## 🔐 Autenticação JWT
 
-### 📍 Regiões
-**POST /regioes**
+### Cadastro de Usuário
+
+**POST /auth/register**
 ```json
 {
-  "nome": "Pantanal Sul",
-  "bioma": "Pantanal"
+  "username": "admin",
+  "password": "123456"
 }
 ```
 
-**PUT /regioes/{id}**
+### Login
+
+**POST /auth/login**
 ```json
 {
-  "nome": "Amazônia Norte",
+  "username": "admin",
+  "password": "123456"
+}
+```
+
+**Resposta:**
+```text
+Bearer eyJhbGciOiJIUzUxMiJ9...
+```
+
+Copie o token, clique no botão 🔒 **Authorize** no Swagger e cole assim:
+```
+SEU_TOKEN
+```
+
+---
+
+## 🔁 Exemplo de Requisições Protegidas
+
+### 📍 POST /regioes
+```json
+{
+  "nome": "Amazônia Sul",
   "bioma": "Amazônico"
 }
 ```
 
-### 📡 Sensores
-**POST /sensores**
+### 📡 POST /sensores
 ```json
 {
   "tipo": "Temperatura",
@@ -54,19 +82,7 @@ cd biosentinela-api
 }
 ```
 
-**PUT /sensores/{id}**
-```json
-{
-  "tipo": "Fumaça",
-  "localizacao": "Ponto Alto",
-  "regiao": {
-    "id": 1
-  }
-}
-```
-
-### 🚨 Alertas
-**POST /alertas**
+### 🚨 POST /alertas
 ```json
 {
   "tipo": "Fumaça detectada",
@@ -77,38 +93,14 @@ cd biosentinela-api
 }
 ```
 
-**PUT /alertas/{id}**
-```json
-{
-  "tipo": "Alerta de Calor",
-  "mensagem": "Temperatura acima de 42°C detectada",
-  "sensor": {
-    "id": 1
-  }
-}
-```
-
 ---
 
-## 🛡️ Segurança
-- Swagger, H2 e todas as rotas da API foram liberadas para facilitar o desenvolvimento.
-- Em produção, recomenda-se proteger os endpoints com autenticação.
+## ✅ Status
 
----
+Em andamento 
 
-## 🧱 Tecnologias Utilizadas
-- Java 17
-- Spring Boot 3.2.5
-- Spring Web, Data JPA, Security, Validation
-- H2 Database (in-memory)
-- Swagger/OpenAPI (springdoc-openapi)
-- Lombok
+## 👥 Equipe
 
----
-
-## 👥 Equipe FIAP
-- Gabriel Gomes Mancera (RM: 555427)
-- Victor Hugo Carvalho (RM: 558550)
-- Juliana de Andrade Sousa (RM: 558834)
-
----
+- Gabriel Gomes Mancera – RM: 555427
+- Victor Hugo Carvalho – RM: 558550
+- Juliana de Andrade Sousa – RM: 558834
