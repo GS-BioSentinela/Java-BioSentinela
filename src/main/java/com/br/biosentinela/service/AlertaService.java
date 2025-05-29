@@ -31,4 +31,9 @@ public class AlertaService {
     public void deletar(Long id) {
         repository.deleteById(id);
     }
+
+    public Alerta buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alerta não encontrado com id: " + id));
+    }
 }

@@ -24,7 +24,8 @@ public class SensorService {
     }
 
     public Sensor atualizar(Long id, Sensor sensorAtualizado) {
-        Sensor sensor = repository.findById(id).orElseThrow();
+        Sensor sensor = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sensor não encontrado com id: " + id));
         sensor.setTipo(sensorAtualizado.getTipo());
         sensor.setLocalizacao(sensorAtualizado.getLocalizacao());
         sensor.setRegiao(sensorAtualizado.getRegiao());
@@ -33,5 +34,10 @@ public class SensorService {
 
     public void deletar(Long id) {
         repository.deleteById(id);
+    }
+
+    public Sensor buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sensor não encontrado com id: " + id));
     }
 }

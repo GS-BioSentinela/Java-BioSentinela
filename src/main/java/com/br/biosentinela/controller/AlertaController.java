@@ -23,6 +23,11 @@ public class AlertaController {
         return service.listarTodos();
     }
 
+    @GetMapping("/{id}")
+    public Alerta buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Alerta salvar(@RequestBody @Valid Alerta alerta) {

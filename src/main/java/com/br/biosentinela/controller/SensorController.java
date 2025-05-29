@@ -23,6 +23,11 @@ public class SensorController {
         return service.listarTodos();
     }
 
+    @GetMapping("/{id}")
+    public Sensor buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Sensor salvar(@RequestBody @Valid Sensor sensor) {
