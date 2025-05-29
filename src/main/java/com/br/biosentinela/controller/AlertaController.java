@@ -1,5 +1,6 @@
 package com.br.biosentinela.controller;
 
+import com.br.biosentinela.dto.AlertaDTO;
 import com.br.biosentinela.model.Alerta;
 import com.br.biosentinela.service.AlertaService;
 import jakarta.validation.Valid;
@@ -31,13 +32,13 @@ public class AlertaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Alerta salvar(@RequestBody @Valid Alerta alerta) {
-        return service.salvar(alerta);
+    public Alerta salvar(@RequestBody @Valid AlertaDTO dto) {
+        return service.salvar(dto);
     }
 
     @PutMapping("/{id}")
-    public Alerta atualizar(@PathVariable Long id, @RequestBody @Valid Alerta alerta) {
-        return service.atualizar(id, alerta);
+    public Alerta atualizar(@PathVariable Long id, @RequestBody @Valid AlertaDTO dto) {
+        return service.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
