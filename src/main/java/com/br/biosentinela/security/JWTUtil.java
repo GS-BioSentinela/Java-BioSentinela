@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 public class JWTUtil {
 
-    private static final String SECRET_KEY = "secretaBioSentinela123";
+    private static final String SECRET_KEY = "3fb6394ir82w0qn32aem1dxikth0wdlodinmrehypvg6etv6lbgyhetr8jv6tqk1";
     private static final long EXPIRATION_TIME = 86400000; // 1 dia
 
     public String generateToken(UserDetails userDetails) {
