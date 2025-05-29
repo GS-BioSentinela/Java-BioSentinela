@@ -20,5 +20,5 @@ public class Usuario {
     private String username;
 
     @NotBlank(message = "Senha é obrigatória")
-    private String senha;
+    private String password;
 }
