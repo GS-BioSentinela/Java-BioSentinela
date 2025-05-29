@@ -2,6 +2,7 @@ package com.br.biosentinela.controller;
 
 import com.br.biosentinela.dto.AlertaDTO;
 import com.br.biosentinela.dto.AlertaResponse;
+import com.br.biosentinela.dto.AlertaStatsDTO;
 import com.br.biosentinela.service.AlertaService;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/alertas")
@@ -45,5 +48,10 @@ public class AlertaController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long id) {
         service.deletar(id);
+    }
+
+    @GetMapping("/stats")
+    public List<AlertaStatsDTO> obterEstatisticas() {
+        return service.obterEstatisticasPorTipo();
     }
 }

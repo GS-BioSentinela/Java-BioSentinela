@@ -2,6 +2,7 @@ package com.br.biosentinela.service;
 
 import com.br.biosentinela.dto.AlertaDTO;
 import com.br.biosentinela.dto.AlertaResponse;
+import com.br.biosentinela.dto.AlertaStatsDTO;
 import com.br.biosentinela.exception.ResourceNotFoundException;
 import com.br.biosentinela.model.Alerta;
 import com.br.biosentinela.model.Sensor;
@@ -10,6 +11,8 @@ import com.br.biosentinela.repository.SensorRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AlertaService {
@@ -57,6 +60,10 @@ public class AlertaService {
     public void deletar(Long id) {
         Alerta existente = buscarEntidade(id);
         repository.delete(existente);
+    }
+
+    public List<AlertaStatsDTO> obterEstatisticasPorTipo() {
+        return repository.contarAlertasPorTipo();
     }
 
     private Alerta buscarEntidade(Long id) {
