@@ -22,12 +22,14 @@ public class SensorService {
         this.regiaoRepository = regiaoRepository;
     }
 
-    public Page<Sensor> listarPaginado(String tipo, Pageable pageable) {
-        if (tipo != null && !tipo.isEmpty()) {
-            return repository.findByTipoIgnoreCase(tipo, pageable);
-        }
-        return repository.findAll(pageable);
+    public Page<SensorResponse> listarPaginado(String tipo, Pageable pageable) {
+        Page<Sensor> page = (tipo != null && !tipo.isEmpty())
+                ? repository.findByTipoIgnoreCase(tipo, pageable)
+                : repository.findAll(pageable);
+
+        return page.map(this::toResponse);
     }
+
 
     public SensorResponse salvar(SensorDTO dto) {
         Sensor sensor = new Sensor();

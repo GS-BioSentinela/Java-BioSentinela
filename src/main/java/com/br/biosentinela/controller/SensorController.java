@@ -23,11 +23,12 @@ public class SensorController {
 
     @Operation(summary = "Listar sensores", description = "Lista todos os sensores com paginação e filtro por tipo (opcional)")
     @GetMapping
-    public ResponseEntity<Page<?>> listarPaginado(
+    public ResponseEntity<Page<SensorResponse>> listarPaginado(
             @RequestParam(required = false) String tipo,
             @ParameterObject Pageable pageable) {
         return ResponseEntity.ok(service.listarPaginado(tipo, pageable));
     }
+
 
     @Operation(summary = "Buscar sensor por ID", description = "Retorna os detalhes de um sensor específico")
     @GetMapping("/{id}")
