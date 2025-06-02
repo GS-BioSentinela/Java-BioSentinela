@@ -27,7 +27,7 @@ cd Java-BioSentinela
 ./mvnw spring-boot:run
 ```
 
-- Swagger local: `http://localhost:8080/swagger-ui.html`
+  - Swagger local: `http://localhost:8080/swagger-ui.html`
 - Console H2: `http://localhost:8080/h2-console`
     - JDBC URL: `jdbc:h2:mem:biosentinela-db`
     - Usuário: `sa` | Senha: *(em branco)*

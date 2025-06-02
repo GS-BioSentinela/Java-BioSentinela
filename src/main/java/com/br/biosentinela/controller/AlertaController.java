@@ -26,7 +26,7 @@ public class AlertaController {
 
     @Operation(summary = "Listar alertas", description = "Lista todos os alertas com paginação")
     @GetMapping
-    public ResponseEntity<Page<?>> listarPaginado(@ParameterObject Pageable pageable) {
+    public ResponseEntity<Page<AlertaResponse>> listarPaginado(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(service.listarPaginado(pageable));
     }
 

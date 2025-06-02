@@ -25,8 +25,9 @@ public class AlertaService {
         this.sensorRepository = sensorRepository;
     }
 
-    public Page<Alerta> listarPaginado(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<AlertaResponse> listarPaginado(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(this::toResponse);
     }
 
     public AlertaResponse buscarPorId(Long id) {
