@@ -1,44 +1,44 @@
 
 # 🌿 BioSentinela – Monitoramento Inteligente de Áreas com Espécies em Extinção
 
-Sistema completo em Java com Spring Boot que integra sensores IoT, alertas automáticos e autenticação JWT, desenvolvido como parte do Global Solution da FIAP.
+Sistema completo desenvolvido com Java e Spring Boot, focado no monitoramento de áreas ambientais sensíveis com sensores IoT. O BioSentinela permite registrar alertas automáticos com autenticação segura via JWT e interface de testes via Swagger.
 
 ---
 
-## 📘 Visão Geral
+## 📌 Objetivo do Projeto
 
-O projeto **BioSentinela** permite monitorar áreas ambientais sensíveis através de sensores de temperatura, umidade e fumaça, com emissão de alertas automáticos. Os dados são organizados por regiões e acessados via API REST documentada com Swagger.
+O BioSentinela tem como missão auxiliar na preservação ambiental, monitorando regiões com fauna em risco de extinção. Através de sensores instalados em campo, o sistema identifica condições críticas (como fumaça, temperatura elevada ou baixa umidade) e emite alertas em tempo real.
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🌍 Deploy da API (Produção)
 
-1. **Clone o projeto:**
+- 🔗 Swagger Online: [biosentinela-api.onrender.com/swagger-ui.html](https://biosentinela-api.onrender.com/swagger-ui.html)
+- ✅ Status da API: [`/`](https://biosentinela-api.onrender.com/)
+- ⚙️ Health Check: [`/health`](https://biosentinela-api.onrender.com/health)
+
+---
+
+## 🚀 Executando Localmente
 
 ```bash
 git clone https://github.com/GS-BioSentinela/Java-BioSentinela.git
 cd Java-BioSentinela
+./mvnw spring-boot:run
 ```
 
-2. **Execute o projeto com Maven ou por sua IDE **
-
-3. **Acesse o Swagger:**
-   [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-
-4. **Acesse o console H2:**
-   - URL: `http://localhost:8080/h2-console`
-   - JDBC URL: `jdbc:h2:mem:biosentinela-db`
-   - User: `sa`
-   - Password: *(deixe em branco)*
+- Swagger local: `http://localhost:8080/swagger-ui.html`
+- Console H2: `http://localhost:8080/h2-console`
+    - JDBC URL: `jdbc:h2:mem:biosentinela-db`
+    - Usuário: `sa` | Senha: *(em branco)*
 
 ---
 
 ## 🔐 Autenticação JWT
 
-### 📥 Cadastro
+### Cadastro
 
 `POST /auth/register`
-
 ```json
 {
   "nome": "Admin",
@@ -47,10 +47,9 @@ cd Java-BioSentinela
 }
 ```
 
-### 🔐 Login
+### Login
 
 `POST /auth/login`
-
 ```json
 {
   "email": "admin@biosentinela.com",
@@ -58,119 +57,85 @@ cd Java-BioSentinela
 }
 ```
 
-O token gerado deve ser usado em **Authorize (🔒)** no Swagger:
-```
-SEU_TOKEN_JWT
-```
+📌 Após o login, use o token gerado no botão **🔒 Authorize** do Swagger.
 
 ---
 
-## 📂 Endpoints Disponíveis
+## 📁 Principais Endpoints
 
-### 🌎 Região
+### 🌎 Regiões
 
 - `POST /regioes`
-
-```json
-{
-  "nome": "Amazônia Sul",
-  "bioma": "Amazônico"
-}
-```
-
 - `GET /regioes`
 - `GET /regioes/{id}`
 - `PUT /regioes/{id}`
 - `DELETE /regioes/{id}`
 
----
-
-### 🌡️ Sensor
+### 🌡️ Sensores
 
 - `POST /sensores`
-
-```json
-{
-  "tipo": "Temperatura",
-  "localizacao": "Latitude -15, Longitude -55",
-  "regiaoId": 1
-}
-```
-
-- `GET /sensores`
-   - Parâmetro opcional: `tipo`
+- `GET /sensores` → suporte a filtros `?tipo=Temperatura`
 - `GET /sensores/{id}`
 - `PUT /sensores/{id}`
 - `DELETE /sensores/{id}`
 
----
-
-### 🚨 Alerta
+### 🚨 Alertas
 
 - `POST /alertas`
-
-```json
-{
-  "tipo": "Fumaça",
-  "mensagem": "Alta concentração de fumaça detectada",
-  "sensorId": 1
-}
-```
-
 - `GET /alertas`
 - `GET /alertas/{id}`
 - `PUT /alertas/{id}`
 - `DELETE /alertas/{id}`
-- `GET /alertas/stats`  
-  Estatísticas agrupadas por tipo.
+- `GET /alertas/stats` → estatísticas por tipo
+
+### 🛡️ Auth
+
+- `POST /auth/register`
+- `POST /auth/login`
+
+### ⚙️ Monitoramento
+
+- `GET /` – confirmação de execução
+- `GET /health` – para sistemas de monitoramento
 
 ---
 
-## ✅ Validações e Tratamento de Erros
+## ✅ Boas Práticas Implementadas
 
-- Campos obrigatórios com `@NotBlank`
-- `ResourceNotFoundException` para erros 404
-- Validação estruturada em `GlobalExceptionHandler`
-- Mensagens amigáveis com data/hora e detalhes
-
----
-
-## 🧪 Testes Recomendados no Swagger
-
-1. Cadastrar usuário (`/auth/register`)
-2. Logar e copiar token JWT (`/auth/login`)
-3. Cadastrar Região
-4. Cadastrar Sensor com `regiaoId` existente
-5. Cadastrar Alerta com `sensorId` existente
-6. Testar filtros (`/sensores?tipo=Temperatura`)
-7. Testar `GET /alertas/stats`
-8. Testar mensagens de erro (ex: `GET /alertas/999`)
+- 🔐 JWT Token com filtro de segurança
+- ⚠️ Tratamento global de erros (`GlobalExceptionHandler`)
+- 🧾 Validações com `@NotBlank`, `@Valid`
+- 🔍 DTOs e Responses separados para segurança e clareza
 
 ---
 
-## 💡 Tecnologias Usadas
+## 🧪 Testes Recomendados
 
-- Java 17 + Spring Boot
+1. Registrar usuário
+2. Realizar login e copiar token JWT
+3. Criar região
+4. Criar sensor com `regiaoId`
+5. Criar alerta com `sensorId`
+6. Listar e filtrar sensores
+7. Ver estatísticas em `/alertas/stats`
+8. Simular erro 404 com `/alertas/999`
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- Java 17 + Spring Boot 3
 - Spring Security + JWT
-- Spring Data JPA
-- H2 Database
-- OpenAPI/Swagger 3
+- JPA + H2
+- Swagger (OpenAPI 3)
 - Lombok
+- Render (deploy gratuito com build automático)
 
 ---
 
-## 📦 Melhorias Futuras
+## 👥 Equipe
 
-- Deploy com Docker e Render
-- Exportação de relatórios
-- Integração com sensores reais (IoT)
-- Dashboard Web e App Mobile
-
----
-
-## 👥 Autores
-
-Projeto desenvolvido por alunos da FIAP – Global Solution 2025
-
----
+Gabriel Gomes Mancera RM:555427
+Victor Hugo Carvalho Pereira RM:5558550
+Juliana de Andrade Sousa RM:558834
 
