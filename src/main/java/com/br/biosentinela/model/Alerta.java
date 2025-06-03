@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -11,6 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Alerta {
 
     @Id
@@ -27,5 +32,9 @@ public class Alerta {
     @JoinColumn(name = "sensor_id")
     @JsonIgnoreProperties("alertas")
     private Sensor sensor;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime dataCriacao;
 
 }
