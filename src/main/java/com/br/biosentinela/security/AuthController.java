@@ -1,6 +1,7 @@
 package com.br.biosentinela.security;
 
 import com.br.biosentinela.dto.UsuarioDTO;
+import com.br.biosentinela.dto.UsuarioResponse;
 import com.br.biosentinela.model.Usuario;
 import com.br.biosentinela.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -47,13 +48,19 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioResponse> register(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
         usuarioRepository.save(usuario);
-        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
+
+        UsuarioResponse response = new UsuarioResponse();
+        response.setId(usuario.getId());
+        response.setUsername(usuario.getUsername());
+
+        return ResponseEntity.ok(response);
     }
 
     public record AuthRequest(String username, String password) {}
 }
+    
