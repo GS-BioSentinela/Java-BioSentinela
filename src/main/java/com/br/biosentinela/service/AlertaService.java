@@ -30,6 +30,7 @@ public class AlertaService {
                 .map(this::toResponse);
     }
 
+
     public AlertaResponse buscarPorId(Long id) {
         return toResponse(buscarEntidade(id));
     }
