@@ -63,4 +63,3 @@ public class AuthController {
 
     public record AuthRequest(String username, String password) {}
 }
-    
