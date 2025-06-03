@@ -5,6 +5,7 @@ import com.br.biosentinela.dto.AlertaResponse;
 import com.br.biosentinela.dto.AlertaStatsDTO;
 import com.br.biosentinela.service.AlertaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/alertas")
 public class AlertaController {
