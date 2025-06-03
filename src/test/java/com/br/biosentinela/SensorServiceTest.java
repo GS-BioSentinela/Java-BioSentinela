@@ -50,4 +50,18 @@ class SensorServiceTest {
         assertEquals("123,456", response.getLocalizacao());
         assertEquals("Amazonas", response.getRegiaoNome());
     }
+
+    @Test
+    void buscarPorIdExistente_deveRetornarSensorResponse() {
+        Regiao regiao = new Regiao(1L, "Cerrado", "Cerrado");
+        Sensor sensor = new Sensor(1L, "Fumaça", "10.10,-10.10", regiao, List.of(), null);
+
+        when(sensorRepository.findById(1L)).thenReturn(Optional.of(sensor));
+
+        SensorResponse response = sensorService.buscarPorId(1L);
+
+        assertEquals("Fumaça", response.getTipo());
+        assertEquals("10.10,-10.10", response.getLocalizacao());
+        assertEquals("Cerrado", response.getRegiaoNome());
+    }
 }
