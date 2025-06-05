@@ -69,11 +69,7 @@ class AlertaServiceTest {
         // Arrange
         Page<Alerta> page = new PageImpl<>(Collections.singletonList(alerta), pageable, 1);
         when(alertaRepository.findAll(pageable)).thenReturn(page);
-
-        // Act
         Page<AlertaResponse> result = alertaService.listarPaginado(pageable);
-
-        // Assert
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         assertEquals(1, result.getContent().size());
