@@ -206,7 +206,7 @@ Para validar o ambiente e executar todos os testes automatizados (22 testes no t
 ```
 Gabriel Gomes Mancera RM:555427
 
-Victor Hugo Carvalho Pereira RM:5558550
+Victor Hugo Carvalho Pereira RM:558550
 
 Juliana de Andrade Sousa RM:558834
 ```
